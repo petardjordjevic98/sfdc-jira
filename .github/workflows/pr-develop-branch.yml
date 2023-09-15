@@ -48,7 +48,7 @@ jobs:
             - uses: jitterbit/get-changed-files@v1
             - run: |
                     for changed_file in ${{ steps.files.outputs.all }}; do
-                      echo "Do something with this ${changed_file}."
+                      echo "Do something with this {changed_file}."
                     done
 
             # We'll need this later when we try to figure out which metadata has 
