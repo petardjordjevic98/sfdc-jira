@@ -9,5 +9,7 @@ public with sharing class JiraControllerTest {
 
 
     System.debug('test func');
+        System.debug('test func');
+
   }
 }
