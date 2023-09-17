@@ -3,7 +3,7 @@ public with sharing class JiraControllerTest {
   @isTest
   
   static void testFunc(){
-
+    JiraController n = new JiraController();
     
     System.debug('sd');
 
