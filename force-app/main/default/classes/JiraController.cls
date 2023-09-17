@@ -83,6 +83,7 @@ public class JiraController {
     // public class jiraWrapper{
     //     public List<issuesWrapper> issues;
     // }
-    
-	
+    public static string testF(){
+        return '';
+    }
 }
