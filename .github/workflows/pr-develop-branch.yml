@@ -54,7 +54,13 @@ jobs:
                       echo "Do something with this ${changed_file}."
                       echo ${GIT_STRING}
                     done
+                    my_string="${my_string#\\n}"
+
                     echo ${my_string}
+                    echo $my_string > ./components.txt
+                    node ./parsePRfiles.js              
+                    comps=$(cat compsToRun.txt)
+                    echo ${comps}
 
             # We'll need this later when we try to figure out which metadata has 
             # changed between commits, so that we can only deploy that metadata
