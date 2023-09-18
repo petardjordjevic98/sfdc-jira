@@ -1,31 +1,31 @@
 const fs = require('fs');
-const readFile = require('readline')
+const readline = require('readline')
 
-async function extractTests() {
+async function extractTests1() {
 
     //by default we specify that all tests should run
     let testsFile = __dirname + '/compsToRun.txt';
-    fs.promises.writeFile(testsFile, 'all');
+    await fs.promises.writeFile(testsFile, 'all');
 
-    const lines = readFile.createInterface({
+    const lines = readline.createInterface({
         input: fs.createReadStream(__dirname + '/components.txt'),
         crlfDelay: Infinity
     });
-    console.log(lines)
 
-    //special delimeter for apex tests
-    let f = lines.split('###')
-    for (let f1 of f) {
-        console.log(f1)
-        fs.promises.writeFile(testsFile, f1);
-        fs.promises.appendFile(testsFile, '\n');
+    for await (const line of lines) {
+        //special delimeter for apex tests
+        let f = line.split('###')
+        for await (let f1 of f) {
+            console.log(f1)
+            await fs.promises.writeFile(testsFile, f1);
+            await fs.promises.appendFile(testsFile, '\n');
+        }
+
+        //remove after dot 
+
+
     }
-
-    //remove after dot 
-
-
-
 
 }
 
-extractTests();
+extractTests1();
