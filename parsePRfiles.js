@@ -11,7 +11,7 @@ async function extractTests1() {
         input: fs.createReadStream(__dirname + '/components.txt'),
         crlfDelay: Infinity
     });
-
+    let wholeString = '';
     for await (const line of lines) {
         //special delimeter for apex tests
         let f = line.split('###')
@@ -24,16 +24,16 @@ async function extractTests1() {
                 f1 = f1.split('.')[0]
             }
             console.log(f1)
+            wholeString += f1 + '\n'
 
-            await fs.promises.writeFile(testsFile, f1);
-            await fs.promises.appendFile(testsFile, '\n');
         }
 
         //remove after dot 
 
 
     }
+    await fs.promises.writeFile(testsFile, wholeString);
 
 }
 
-await extractTests1();
+extractTests1();
