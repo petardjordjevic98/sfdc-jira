@@ -15,12 +15,15 @@ async function extractTests() {
     for await (const line of lines) {
         //special delimeter for apex tests
         let f = line.split('###')
+        for (let f1 of f) {
+            await fs.promises.writeFile(testsFile, f);
+            await fs.promises.appendFile(fileName, '\n');
+        }
         console.log(line.split("/").pop().split(".")[0]);
         let fileName = line.split("/").pop().split(".")[0];
         //remove after dot 
 
-        await fs.promises.writeFile(testsFile, f);
-        await fs.promises.appendFile(fileName, '\n');
+
     }
 
 }
