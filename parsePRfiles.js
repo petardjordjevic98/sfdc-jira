@@ -24,7 +24,7 @@ async function extractTests1() {
                 f1 = f1.split('.')[0]
             }
             console.log(f1)
-            wholeString += f1 + '\n'
+            wholeString += f1 + '###'
 
         }
 

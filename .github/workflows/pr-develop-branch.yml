@@ -125,9 +125,9 @@ jobs:
        
                   echo "APEX_TESTS=$TESTS" >> $GITHUB_ENV
                   {
-                    echo 'COMPONENTS<<" "'
+                    echo 'COMPONENTS<<###'
                     $COMPS
-                    echo " "
+                    echo ###
                   } >> "$GITHUB_ENV"        
             # Now Install Salesforce CLI
             - name: 'Install Salesforce CLI'
