@@ -1,5 +1,5 @@
 const fs = require('fs');
-const readline = require('readline')
+const readFile = require('readline')
 
 async function extractTests() {
 
@@ -7,7 +7,7 @@ async function extractTests() {
     let testsFile = __dirname + '/compsToRun.txt';
     fs.promises.writeFile(testsFile, 'all');
 
-    const lines = readline.createInterface({
+    const lines = readFile.createInterface({
         input: fs.createReadStream(__dirname + '/components.txt'),
         crlfDelay: Infinity
     });
