@@ -61,6 +61,7 @@ jobs:
                     my_string="${my_string}}"
 
                     echo "Modified/added files: $my_string"
+                    echo "my_string=$my_string" >> $GITHUB_ENV
                                 
                   
 
