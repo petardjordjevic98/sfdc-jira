@@ -47,12 +47,14 @@ jobs:
             - id: files
               uses: jitterbit/get-changed-files@v1
             - run: |
+                    my_string=""
                     echo ${{steps.files}}
                     for changed_file in ${{ steps.files.outputs.added_modified }}; do
-                    ${{ format('{0}\n{1}', GIT_STRING,changed_file) }}
+                      my_string+="\n${changed_file}"
                       echo "Do something with this ${changed_file}."
                       echo ${GIT_STRING}
                     done
+                    echo ${my_string}
 
             # We'll need this later when we try to figure out which metadata has 
             # changed between commits, so that we can only deploy that metadata
