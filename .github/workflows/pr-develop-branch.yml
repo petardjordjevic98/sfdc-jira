@@ -25,6 +25,7 @@ jobs:
     validate-deployment-on-develop-org:
         env: 
          my_string : ""
+         COMPONENTS : ""
 
         # As mentioned in the blog post, this job runs inside a VM. Here we
         # can specify which OS this VM should run on. 
@@ -126,8 +127,8 @@ jobs:
                   echo "COMPONENTS=$COMPS" >> $GITHUB_ENV
               #update components
             - name: 'Update Components'
-              env :
-                COMPONENTS: ${{ env.COMPONENTS }}
+              env:
+                COMPONENTS: ${{env.COMPONENTS}}
 
               run: | 
                   echo "COMPONENTS"
