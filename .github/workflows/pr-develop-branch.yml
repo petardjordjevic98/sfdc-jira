@@ -23,6 +23,9 @@ on:
 jobs:
     # This is the name of the job. You can give it whatever name you want
     validate-deployment-on-develop-org:
+        env: 
+         my_string : ""
+
         # As mentioned in the blog post, this job runs inside a VM. Here we
         # can specify which OS this VM should run on. 
         # In this case, we are going to run our commands on the latest version
@@ -45,8 +48,6 @@ jobs:
 
             # Get all files
             - id: files
-              env: 
-                my_string : ""
               uses: jitterbit/get-changed-files@v1
               with:
                 fetch-depth: 0
