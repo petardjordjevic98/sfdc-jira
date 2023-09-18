@@ -4,7 +4,7 @@ const readline = require('readline')
 async function extractTests1() {
 
     //by default we specify that all tests should run
-    let testsFile = __dirname + '/compsToRun.txt';
+    let testsFile = __dirname + '/components123.txt';
     await fs.promises.writeFile(testsFile, 'all');
 
     const lines = readline.createInterface({
