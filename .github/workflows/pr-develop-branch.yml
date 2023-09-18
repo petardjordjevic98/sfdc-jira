@@ -45,11 +45,12 @@ jobs:
 
             # Get all files
             - id: files
+              env: 
+                my_string : ""
               uses: jitterbit/get-changed-files@v1
               with:
                 fetch-depth: 0
             - run: |
-                    my_string=""
                     echo ${{steps.files}}
                     for changed_file in ${{ steps.files.outputs.added_modified }}; do
                       my_string+="\n${changed_file}"
@@ -59,7 +60,6 @@ jobs:
                     my_string="${my_string#\\n}"
 
                     echo ${my_string}
-                    echo $my_string > ./components.txt
                                 
                   
 
@@ -108,7 +108,10 @@ jobs:
               run: |
                   echo $PR_BODY > ./pr_body.txt
                   node ./parsePR.js  
-                  node ./parsePRfiles.js            
+                  echo ${my_string} > ./components.txt
+                  node ./parsePRfiles.js      
+                  COMPS=$(cat compsToRun.txt)   
+                  echo $COMPS          
                   TESTS=$(cat testsToRun.txt)       
                   echo "APEX_TESTS=$TESTS" >> $GITHUB_ENV
                   
