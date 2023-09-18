@@ -127,8 +127,6 @@ jobs:
                   echo "COMPONENTS=$COMPS" >> $GITHUB_ENV
               #update components
             - name: 'Update Components'
-              env:
-                COMPONENTS: ${{env.COMPONENTS}}
 
               run: | 
                   echo "COMPONENTS"
