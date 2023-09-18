@@ -11,20 +11,20 @@ async function extractTests() {
         input: fs.createReadStream(__dirname + '/components.txt'),
         crlfDelay: Infinity
     });
+    console.log(lines)
 
-    for (const line of lines) {
-        //special delimeter for apex tests
-        let f = line.split('###')
-        for (let f1 of f) {
-            console.log(f1)
-            fs.promises.writeFile(testsFile, f1);
-            fs.promises.appendFile(testsFile, '\n');
-        }
-
-        //remove after dot 
-
-
+    //special delimeter for apex tests
+    let f = lines.split('###')
+    for (let f1 of f) {
+        console.log(f1)
+        fs.promises.writeFile(testsFile, f1);
+        fs.promises.appendFile(testsFile, '\n');
     }
+
+    //remove after dot 
+
+
+
 
 }
 
