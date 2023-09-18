@@ -130,8 +130,8 @@ jobs:
                 COMPONENTS: ${{ env.COMPONENTS }}
 
               run: | 
-                echo "COMPONENTS"
-                echo $COMPONENTS
+                  echo "COMPONENTS"
+                  echo $COMPONENTS
               
             # Now Install Salesforce CLI
             - name: 'Install Salesforce CLI'
