@@ -46,6 +46,8 @@ jobs:
             # Get all files
             - id: files
               uses: jitterbit/get-changed-files@v1
+              with:
+                fetch-depth: 0
             - run: |
                     my_string=""
                     echo ${{steps.files}}
