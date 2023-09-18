@@ -111,8 +111,8 @@ jobs:
               run: |
                   echo $PR_BODY > ./pr_body.txt
                   node ./parsePR.js  
-                  echo  $my_string}
-                  echo  $my_string} > ./components.txt
+                  echo  $my_string
+                  echo  $my_string > ./components.txt
                   node ./parsePRfiles.js      
                   COMPS=$(cat compsToRun.txt)   
                   echo $COMPS          
