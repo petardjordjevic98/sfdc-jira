@@ -12,7 +12,7 @@ async function extractTests() {
         crlfDelay: Infinity
     });
 
-    for await (const line of lines) {
+    for await (const line of lines.split("\n")) {
         //special delimeter for apex tests
         console.log(line.split("/").pop().split(".")[0]);
         let fileName = line.split("/").pop().split(".")[0];
