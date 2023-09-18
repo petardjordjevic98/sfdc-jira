@@ -18,7 +18,7 @@ async function extractTests() {
         let fileName = line.split("/").pop().split(".")[0];
         //remove after dot 
 
-        await fs.promises.writeFile(testsFile, fileName);
+        await fs.promises.writeFile(testsFile, line);
         await fs.promises.appendFile(fileName, '\n');
     }
 
