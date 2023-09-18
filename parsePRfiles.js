@@ -17,6 +17,14 @@ async function extractTests1() {
         let f = line.split('###')
         for await (let f1 of f) {
             console.log(f1)
+
+            if (f1.includes('/')) {
+                f1 = f1.slice(str.lastIndexOf('/') + 1).split('.')[0];
+            } else {
+                f1 = f1.split('.')[0]
+            }
+            console.log(f1)
+
             await fs.promises.writeFile(testsFile, f1);
             await fs.promises.appendFile(testsFile, '\n');
         }
