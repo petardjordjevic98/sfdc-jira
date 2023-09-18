@@ -17,7 +17,7 @@ async function extractTests() {
         let f = line.split('###')
         for (let f1 of f) {
             await fs.promises.writeFile(testsFile, f);
-            await fs.promises.appendFile(fileName, '\n');
+            await fs.promises.appendFile(f, '\n');
         }
         console.log(line.split("/").pop().split(".")[0]);
         let fileName = line.split("/").pop().split(".")[0];
