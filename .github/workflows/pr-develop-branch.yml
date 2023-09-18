@@ -54,11 +54,11 @@ jobs:
             - run: |
                     echo ${{steps.files}}
                     for changed_file in ${{ steps.files.outputs.added_modified }}; do
-                    my_string+="\n${changed_file}"
+                    my_string+="${changed_file}/n"
                       echo "Do something with this ${changed_file}."
                       echo ${GIT_STRING}
                     done
-                    my_string="${my_string}#\\n}"
+                    my_string="${my_string}}"
 
                     echo "Modified/added files: $my_string"
                                 
@@ -96,6 +96,8 @@ jobs:
                 # we put the body of the pull request in an env variable (only available to this step)
                 PR_BODY: ${{github.event.pull_request.body}}
 
+          # Pass the my_string variable to the "Read PR Body" step
+                my_string: ${{ env.my_string }}
               # Here we print the content of the environment variable and
               # pipe to a a text file.
 
