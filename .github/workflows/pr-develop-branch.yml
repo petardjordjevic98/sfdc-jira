@@ -54,13 +54,13 @@ jobs:
             - run: |
                     echo ${{steps.files}}
                     for changed_file in ${{ steps.files.outputs.added_modified }}; do
-                      $my_string+="\n${changed_file}"
+                      my_string+="\n${changed_file}"
                       echo "Do something with this ${changed_file}."
                       echo ${GIT_STRING}
                     done
-                    $my_string="${my_string#\\n}"
+                    my_string="${my_string#\\n}"
 
-                    echo ${my_string}
+                    echo {my_string}
                                 
                   
 
@@ -109,8 +109,8 @@ jobs:
               run: |
                   echo $PR_BODY > ./pr_body.txt
                   node ./parsePR.js  
-                  echo $my_string
-                  echo $my_string > ./components.txt
+                  echo my_string
+                  echo my_string > ./components.txt
                   node ./parsePRfiles.js      
                   COMPS=$(cat compsToRun.txt)   
                   echo $COMPS          
