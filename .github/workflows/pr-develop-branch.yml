@@ -118,7 +118,10 @@ jobs:
                   COMPS=$(cat compsToRun.txt)   
                   echo "components:\n"
                   echo $COMPS          
-                  TESTS=$(cat testsToRun.txt)       
+                  TESTS=$(cat testsToRun.txt)
+                  echo "tests\n"
+                  echo $TESTS          
+       
                   echo "APEX_TESTS=$TESTS" >> $GITHUB_ENV
                   
             # Now Install Salesforce CLI
