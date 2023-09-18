@@ -36,4 +36,4 @@ async function extractTests1() {
 
 }
 
-extractTests1();
+await extractTests1();
