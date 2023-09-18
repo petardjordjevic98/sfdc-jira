@@ -61,8 +61,7 @@ jobs:
                     echo ${my_string}
                     echo $my_string > ./components.txt
                                 
-                    comps=$(cat compsToRun.txt)
-                    echo ${comps}
+                  
 
             # We'll need this later when we try to figure out which metadata has 
             # changed between commits, so that we can only deploy that metadata
