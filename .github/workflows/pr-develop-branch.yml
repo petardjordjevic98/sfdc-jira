@@ -54,7 +54,7 @@ jobs:
             - run: |
                     echo ${{steps.files}}
                     for changed_file in ${{ steps.files.outputs.added_modified }}; do
-                    my_string+="${changed_file}\n"
+                    my_string+="${changed_file}###"
                       echo "Do something with this ${changed_file}."
                       echo ${GIT_STRING}
                     done
