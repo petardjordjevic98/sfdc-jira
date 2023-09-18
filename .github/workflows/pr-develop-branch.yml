@@ -125,6 +125,16 @@ jobs:
        
                   echo "APEX_TESTS=$TESTS" >> $GITHUB_ENV
                   echo "COMPONENTS=$COMPS" >> $GITHUB_ENV   
+            # update COMPONENTS ON JIRA
+            - name: "UPDATE COMPONENTS"
+              env:
+                  string: ${{env.COMPONENTS}}
+              run: |
+                  IFS="###" read -ra values <<< "$string"
+
+                  for value in "${values[@]}"; do
+                    echo "$value"
+                  done
             # Now Install Salesforce CLI
             - name: 'Install Salesforce CLI'
               run: |
