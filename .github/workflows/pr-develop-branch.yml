@@ -116,6 +116,7 @@ jobs:
                   echo  $my_string > ./components.txt
                   node ./parsePRfiles.js      
                   COMPS=$(cat compsToRun.txt)   
+                  echo "components:\n"
                   echo $COMPS          
                   TESTS=$(cat testsToRun.txt)       
                   echo "APEX_TESTS=$TESTS" >> $GITHUB_ENV

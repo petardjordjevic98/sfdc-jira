@@ -14,7 +14,7 @@ async function extractTests() {
 
     for await (const line of lines) {
         //special delimeter for apex tests
-        console.log(line.split("/").pop());
+        console.log(line.split("/").pop().split(".")[0]);
         let fileName = line.split("/").pop().split(".")[0];
         //remove after dot 
 
