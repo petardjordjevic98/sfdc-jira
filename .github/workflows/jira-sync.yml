@@ -61,5 +61,19 @@ jobs:
                 # Create the component in the Jira project using
                 # You can add the code to create the component here
                 echo "Creating component $component in the Jira project."
+                # Create the component in the Jira project
+                createComponentResponse=$(curl -u ${{ secrets.JIRA_USERNAME }}:${{ secrets.JIRA_API_TOKEN }} -X POST -H "Content-Type: application/json" -d '{
+                  "name": "'"$component"'",
+                  "description": "Component created automatically",
+                  
+                }' "https://cloudpacific.atlassian.net/rest/api/latest/component")
+                
+                # Check the response to see if the component was created successfully
+                if echo "$createComponentResponse" | grep -q '"name":"'"$component"'"'; then
+                  echo "Component $component created successfully in the Jira project."
+                else
+                  echo "Failed to create component $component in the Jira project."
+                  # You can add error handling here if needed
+                fi
               fi
             done
