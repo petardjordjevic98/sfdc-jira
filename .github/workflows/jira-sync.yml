@@ -80,7 +80,7 @@ jobs:
                 fi
               fi
               # Link the component to the Jira issue
-                linkComponentToIssueResponse=$(curl -u ${{ secrets.JIRA_USERNAME }}:${{ secrets.JIRA_API_KEY }} -X POST -H "Content-Type: application/json" -d '{
+                linkComponentToIssueResponse=$(curl -u ${{ secrets.JIRA_USERNAME }}:${{ secrets.JIRA_API_KEY }} -X PUT -H "Content-Type: application/json" -d '{
                   "update": {
                     "components": [
                       {
