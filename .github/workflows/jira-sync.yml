@@ -31,8 +31,9 @@ jobs:
           # Fetch Jira issue details using Jira API
           jiraData=$(curl -u ${{ secrets.JIRA_USERNAME }}:${{ secrets.JIRA_API_TOKEN }} -X GET -H "Content-Type: application/json" https://cloudpacific.atlassian.net/rest/api/latest/issue/${issueKey})
           
-       
-
+            
+      - name: Debug Git Diff
+        run: git diff --name-only origin/${{ github.base_ref }}...origin/${{ github.head_ref }}
     
       - name: Update Jira Components
         run: |
