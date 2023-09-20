@@ -45,7 +45,6 @@ jobs:
               echo "File name without extension: $fileName"
              
               # Extract the component name from the file (you might need to adjust this)
-              component=$(echo "$fileName" | grep -o 'component: \K.*')
               
               # Check if the component exists in the Jira project
               if curl -u ${{ secrets.JIRA_USERNAME }}:${{ secrets.JIRA_API_TOKEN }} -X GET -H "Content-Type: application/json" "https://cloudpacific.atlassian.net/rest/api/latest/project/NB/component/$component" | grep -q '"name":"'"$component"'"'; then
