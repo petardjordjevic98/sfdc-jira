@@ -38,9 +38,7 @@ jobs:
         uses: jitterbit/get-changed-files@v1
       - run: |
           # Loop through each modified or added file
-          echo ${{steps.files}}
-          for changed_file in ${{ steps.files.outputs.added_modified }}; do
-                echo "File name without extension: $changed_file"
+         
 
           for fileName in ${{  steps.files.outputs.added_modified }}; do
             # You can use $fileName here to reference each file name without extension
