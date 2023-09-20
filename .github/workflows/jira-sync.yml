@@ -62,7 +62,7 @@ jobs:
                 # You can add the code to create the component here
                 echo "Creating component $component in the Jira project."
                 # Create the component in the Jira project
-                createComponentResponse=$(curl -u ${{ secrets.JIRA_USERNAME }}:${{ secrets.JIRA_API_TOKEN }} -X POST -H  "Accept-Encoding": "application/json", "Content-Type: application/json" -d '{
+                createComponentResponse=$(curl -u ${{ secrets.JIRA_USERNAME }}:${{ secrets.JIRA_API_TOKEN }} -X POST -sH  'Accept-encoding: application/json' -H "Content-Type: application/json" -d '{
                   "name": "'"$component"'",
                   "description": "Component created automatically",
                   "project" : "NB"
