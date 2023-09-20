@@ -65,7 +65,7 @@ jobs:
                 createComponentResponse=$(curl -u ${{ secrets.JIRA_USERNAME }}:${{ secrets.JIRA_API_TOKEN }} -X POST -H "Content-Type: application/json" -d '{
                   "name": "'"$component"'",
                   "description": "Component created automatically",
-                  
+                  "project" : "NB"
                 }' "https://cloudpacific.atlassian.net/rest/api/latest/component")
                 
                 # Check the response to see if the component was created successfully
@@ -73,6 +73,7 @@ jobs:
                   echo "Component $component created successfully in the Jira project."
                 else
                   echo "Failed to create component $component in the Jira project."
+                  echo $createComponentResponse
                   # You can add error handling here if needed
                 fi
               fi
