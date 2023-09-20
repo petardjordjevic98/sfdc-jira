@@ -35,7 +35,8 @@ jobs:
       
     
       - name: Update Jira Components
-        run: |
+        uses: jitterbit/get-changed-files@v1
+      - run: |
           # Loop through each modified or added file
           echo ${{steps.files}}
           for changed_file in ${{ steps.files.outputs.added_modified }}; do
