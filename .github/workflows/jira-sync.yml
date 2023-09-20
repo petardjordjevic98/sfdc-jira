@@ -37,6 +37,7 @@ jobs:
       - id: files
         uses: jitterbit/get-changed-files@v1
       - run: |
+            issueKey=$(echo "${{ github.event.pull_request.title }}" | grep -Eo '[A-Z]+-[0-9]+')
             echo "TEST ECHO"
             echo $${{steps.files.outputs.added_modified}}
             # Loop through each modified or added file
