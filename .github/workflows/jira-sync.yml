@@ -33,13 +33,7 @@ jobs:
           
        
 
-      - name: Get Modified Files
-        id: modifiedFiles
-        run: |
-          # Get a list of modified or added files using Git commands
-          fileNames=$(git diff --name-only origin/${{ github.base_ref }}...origin/${{ github.head_ref }} | xargs -I {} basename {} | rev | cut -d. -f2- | rev)
-          echo "::set-output name=file_names::$fileNames"
-
+    
       - name: Update Jira Components
         run: |
           # Loop through each modified or added file
