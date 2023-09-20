@@ -37,6 +37,7 @@ jobs:
       - name: Update Jira Components
         run: |
           # Loop through each modified or added file
+          echo ${{steps.modifiedFiles.outputs.file_names}}
           for fileName in ${{ steps.modifiedFiles.outputs.file_names }}; do
             # You can use $fileName here to reference each file name without extension
             echo "File name without extension: $fileName"
