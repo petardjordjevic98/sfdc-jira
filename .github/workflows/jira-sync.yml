@@ -98,9 +98,4 @@ jobs:
                   echo $linkComponentToIssueResponse
                   # You can add error handling here if needed
                 fi
-              else
-                echo "Failed to create component $component in the Jira project."
-                echo $createComponentResponse
-                # You can add error handling here if needed
-              fi
             done
