@@ -134,6 +134,7 @@ jobs:
 
                   for value in "${arrayOfComponents[@]}"; do
                     echo "$value"
+                    
                   done
                   echo "COMPONENTSARRAY=$arrayOfComponents" >> $GITHUB_ENV
             # Now Install Salesforce CLI
