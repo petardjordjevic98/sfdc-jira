@@ -48,6 +48,7 @@ public class JiraController {
 //         req.setMethod('POST');
 //         string body = '{ "description": "This is a TMO component","name": "'+componentName+'","project": "NB"}';
 // 		req.setBody(body);
+
 //         req.setEndpoint('https://cloudpacific.atlassian.net/rest/api/latest/component');
 //         HttpResponse res = h.send(req);
 // 		System.debug(res.getBodY());
