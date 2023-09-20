@@ -40,12 +40,20 @@ jobs:
             echo "TEST ECHO"
             echo $${{steps.files.outputs.added_modified}}
             # Loop through each modified or added file
-            for fileName in ${{ steps.files.outputs.added_modified }}; do
+            for filePath in ${{ steps.files.outputs.added_modified }}; do
               # You can use $fileName here to reference each file name without extension
               echo "File name without extension: $fileName"
+              fileName=$(basename "$filePath")
+      
+              # Remove the file extension by removing everything after the last dot (.)
+              fileNameWithoutExtension="${fileName%.*}"
+              
+              echo "File name without extension: $fileNameWithoutExtension"
              
               # Extract the component name from the file (you might need to adjust this)
-              
+              component=$fileNameWithoutExtension
+              # Extract the component name from the file (you might need to adjust this)
+              echo $fileNameWithoutExtension
               # Check if the component exists in the Jira project
               if curl -u ${{ secrets.JIRA_USERNAME }}:${{ secrets.JIRA_API_TOKEN }} -X GET -H "Content-Type: application/json" "https://cloudpacific.atlassian.net/rest/api/latest/project/NB/component/$component" | grep -q '"name":"'"$component"'"'; then
                 echo "Component $component already exists in the Jira project."
