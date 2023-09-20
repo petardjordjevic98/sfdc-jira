@@ -79,4 +79,28 @@ jobs:
                   # You can add error handling here if needed
                 fi
               fi
+              # Link the component to the Jira issue
+                linkComponentToIssueResponse=$(curl -u ${{ secrets.JIRA_USERNAME }}:${{ secrets.JIRA_API_KEY }} -X POST -H "Content-Type: application/json" -d '{
+                  "update": {
+                    "components": [
+                      {
+                        "add": {"name": "'"$component"'"}
+                      }
+                    ]
+                  }
+                }' "https://cloudpacific.atlassian.net/rest/api/latest/issue/${issueKey}")
+                
+                # Check the response to see if the component was linked to the issue successfully
+                if echo "$linkComponentToIssueResponse" | grep -q '"name":"'"$component"'"'; then
+                  echo "Component $component linked to the Jira issue $issueKey successfully."
+                else
+                  echo "Failed to link component $component to the Jira issue $issueKey."
+                  echo $linkComponentToIssueResponse
+                  # You can add error handling here if needed
+                fi
+              else
+                echo "Failed to create component $component in the Jira project."
+                echo $createComponentResponse
+                # You can add error handling here if needed
+              fi
             done
