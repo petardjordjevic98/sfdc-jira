@@ -52,3 +52,4 @@ jobs:
               echo "Component $component already exists in the Jira project."
             else
               # Create the component in the Jira project using
+          done
