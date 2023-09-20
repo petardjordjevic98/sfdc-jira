@@ -31,9 +31,7 @@ jobs:
           # Fetch Jira issue details using Jira API
           jiraData=$(curl -u ${{ secrets.JIRA_USERNAME }}:${{ secrets.JIRA_API_TOKEN }} -X GET -H "Content-Type: application/json" https://cloudpacific.atlassian.net/rest/api/latest/issue/${issueKey})
           
-          # Extract desired information from the Jira response
-          components=$(echo $jiraData | jq -r '.fields.components | map(.name) | join(",")')
-          echo "::set-output name=components::$components"
+       
 
       - name: Get Modified Files
         id: modifiedFiles
