@@ -50,7 +50,7 @@ jobs:
               fileNameWithoutExtension="${fileName%.*}"
               
               echo "File name without extension: $fileNameWithoutExtension"
-              if [[  ! $fileNameWithoutExtension == *".test"*  && ! $fileNameWithoutExtension == *".js-meta"* && ! $fileNameWithoutExtension == *".field-meta"* ]]; then
+              if [[  ! $fileNameWithoutExtension == *".test"*   && ! $fileNameWithoutExtension == *".cls-meta"* && ! $fileNameWithoutExtension == *".js-meta"* && ! $fileNameWithoutExtension == *".field-meta"* ]]; then
               # Extract the component name from the file (you might need to adjust this)
                 component=$fileNameWithoutExtension
                 # Extract the component name from the file (you might need to adjust this)
