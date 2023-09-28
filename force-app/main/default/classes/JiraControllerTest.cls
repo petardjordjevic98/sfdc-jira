@@ -5,6 +5,7 @@ public with sharing class JiraControllerTest {
   static void testFunc(){
     JiraController.testF();
     
+    System.debug('test add');
 
     System.debug('test add');
 
