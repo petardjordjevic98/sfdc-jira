@@ -50,53 +50,55 @@ jobs:
               fileNameWithoutExtension="${fileName%.*}"
               
               echo "File name without extension: $fileNameWithoutExtension"
-             
+              if [[  ! $fileNameWithoutExtension == *".trigger-meta"*  && ! $fileNameWithoutExtension == *".test"*   && ! $fileNameWithoutExtension == *".cls-meta"* && ! $fileNameWithoutExtension == *".js-meta"* && ! $fileNameWithoutExtension == *".field-meta"* ]]; then
               # Extract the component name from the file (you might need to adjust this)
-              component=$fileNameWithoutExtension
-              # Extract the component name from the file (you might need to adjust this)
-              echo $fileNameWithoutExtension
-              # Check if the component exists in the Jira project
-              echo ${{secrets.JIRA_USERNAME}}
-              echo ${{secrets.JIRA_API_KEY}}
-              if curl -u ${{ secrets.JIRA_USERNAME }}:${{ secrets.JIRA_API_KEY }} -X GET -H "Content-Type: application/json" "https://cloudpacific.atlassian.net/rest/api/latest/project/NB/component/$component" | grep -q '"name":"'"$component"'"'; then
-                echo "Component $component already exists in the Jira project."
-              else
-                # Create the component in the Jira project using
-                # You can add the code to create the component here
-                echo "Creating component $component in the Jira project."
-                # Create the component in the Jira project
-                createComponentResponse=$(curl -u ${{ secrets.JIRA_USERNAME }}:${{ secrets.JIRA_API_KEY }} -X POST -sH  'Accept-encoding: application/json' -H "Content-Type: application/json" -d '{
-                  "name": "'"$component"'",
-                  "description": "Component created automatically",
-                  "project" : "NB"
-                }' "https://cloudpacific.atlassian.net/rest/api/latest/component")
-                
-                # Check the response to see if the component was created successfully
-                if echo "$createComponentResponse" | grep -q '"name":"'"$component"'"'; then
-                  echo "Component $component created successfully in the Jira project."
+                component=$fileNameWithoutExtension
+                # Extract the component name from the file (you might need to adjust this)
+                echo $fileNameWithoutExtension
+                # Check if the component exists in the Jira project
+                echo ${{secrets.JIRA_USERNAME}}
+                echo ${{secrets.JIRA_API_KEY}}
+                if curl -u ${{ secrets.JIRA_USERNAME }}:${{ secrets.JIRA_API_KEY }} -X GET -H "Content-Type: application/json" "https://cloudpacific.atlassian.net/rest/api/latest/project/NB/component/$component" | grep -q '"name":"'"$component"'"'; then
+                  echo "Component $component already exists in the Jira project."
                 else
-                  echo "Failed to create component $component in the Jira project."
-                  echo $createComponentResponse
-                  # You can add error handling here if needed
+                  # Create the component in the Jira project using
+                  # You can add the code to create the component here
+                  echo "Creating component $component in the Jira project."
+                  # Create the component in the Jira project
+                  createComponentResponse=$(curl -u ${{ secrets.JIRA_USERNAME }}:${{ secrets.JIRA_API_KEY }} -X POST -sH  'Accept-encoding: application/json' -H "Content-Type: application/json" -d '{
+                    "name": "'"$component"'",
+                    "description": "Component created automatically",
+                    "project" : "NB"
+                  }' "https://cloudpacific.atlassian.net/rest/api/latest/component")
+                  
+                  # Check the response to see if the component was created successfully
+                  if echo "$createComponentResponse" | grep -q '"name":"'"$component"'"'; then
+                    echo "Component $component created successfully in the Jira project."
+                  else
+                    echo "Failed to create component $component in the Jira project."
+                    echo $createComponentResponse
+                    # You can add error handling here if needed
+                  fi
                 fi
+                # Link the component to the Jira issue
+                  linkComponentToIssueResponse=$(curl -u ${{ secrets.JIRA_USERNAME }}:${{ secrets.JIRA_API_KEY }} -X PUT -H "Content-Type: application/json" -d '{
+                    "update": {
+                      "components": [
+                        {
+                          "add": {"name": "'"$component"'"}
+                        }
+                      ]
+                    }
+                  }' "https://cloudpacific.atlassian.net/rest/api/latest/issue/${issueKey}")
+                  
+                  # Check the response to see if the component was linked to the issue successfully
+                  if echo "$linkComponentToIssueResponse" | grep -q '"name":"'"$component"'"'; then
+                    echo "Component $component linked to the Jira issue $issueKey successfully."
+                  else
+                    echo "Failed to link component $component to the Jira issue $issueKey."
+                    echo $linkComponentToIssueResponse
+                    # You can add error handling here if needed
+                  fi
               fi
-              # Link the component to the Jira issue
-                linkComponentToIssueResponse=$(curl -u ${{ secrets.JIRA_USERNAME }}:${{ secrets.JIRA_API_KEY }} -X PUT -H "Content-Type: application/json" -d '{
-                  "update": {
-                    "components": [
-                      {
-                        "add": {"name": "'"$component"'"}
-                      }
-                    ]
-                  }
-                }' "https://cloudpacific.atlassian.net/rest/api/latest/issue/${issueKey}")
-                
-                # Check the response to see if the component was linked to the issue successfully
-                if echo "$linkComponentToIssueResponse" | grep -q '"name":"'"$component"'"'; then
-                  echo "Component $component linked to the Jira issue $issueKey successfully."
-                else
-                  echo "Failed to link component $component to the Jira issue $issueKey."
-                  echo $linkComponentToIssueResponse
-                  # You can add error handling here if needed
-                fi
             done
+          
