@@ -7,6 +7,8 @@ public with sharing class JiraControllerTest {
     
 
     System.debug('test add');
+
+    System.debug('test add');
     //very new 
     System.debug('petar123');
     //new test line
