@@ -43,9 +43,30 @@ jobs:
             # Make sure to specify fetch-depth:0. This allows us to
             # access previous commits that have been pushed to the repository.
 
+            # Get all files
+            - id: files
+              uses: jitterbit/get-changed-files@v1
+            - run: |
+                    my_string=""
+                    echo ${{steps.files}}
+                    for changed_file in ${{ steps.files.outputs.added_modified }}; do
+                      my_string+="\n${changed_file}"
+                      echo "Do something with this ${changed_file}."
+                      echo ${GIT_STRING}
+                    done
+                    my_string="${my_string#\\n}"
+
+                    echo ${my_string}
+                    echo $my_string > ./components.txt
+                    node ./parsePRfiles.js              
+                    comps=$(cat compsToRun.txt)
+                    echo ${comps}
+
             # We'll need this later when we try to figure out which metadata has 
             # changed between commits, so that we can only deploy that metadata
             # to the destination org
+
+
 
             - name: 'Checkout source code'
               uses: actions/checkout@v3
@@ -162,7 +183,7 @@ jobs:
 
             # Now we upload the .sarif file as explained in the previous step
             - name: Upload SARIF file
-              uses: github/codeql-action/upload-sarif@v1
+              uses: github/codeql-action/upload-sarif@v2
               with:
                 sarif_file: changed-sources/apexScanResults.sarif
 

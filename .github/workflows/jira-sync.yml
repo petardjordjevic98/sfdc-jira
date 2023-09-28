@@ -1,0 +1,104 @@
+name: Jira Integration
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+jobs:
+  updateJiraComponents:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm install
+      
+      - name: Get Jira Issue
+        id: get_jira_issue
+        run: |
+          # Retrieve Jira issue key from pull request title
+          issueKey=$(echo "${{ github.event.pull_request.title }}" | grep -Eo '[A-Z]+-[0-9]+')
+          
+          # Fetch Jira issue details using Jira API
+          jiraData=$(curl -u ${{ secrets.JIRA_USERNAME }}:${{ secrets.JIRA_API_KEY }} -X GET -H "Content-Type: application/json" https://cloudpacific.atlassian.net/rest/api/latest/issue/${issueKey})
+          echo $jiraData
+            
+      
+    
+      - id: files
+        uses: jitterbit/get-changed-files@v1
+      - run: |
+            issueKey=$(echo "${{ github.event.pull_request.title }}" | grep -Eo '[A-Z]+-[0-9]+')
+            echo "TEST ECHO"
+            echo $${{steps.files.outputs.added_modified}}
+            # Loop through each modified or added file
+            for filePath in ${{ steps.files.outputs.added_modified }}; do
+              # You can use $fileName here to reference each file name without extension
+              echo "File name without extension: $fileName"
+              fileName=$(basename "$filePath")
+      
+              # Remove the file extension by removing everything after the last dot (.)
+              fileNameWithoutExtension="${fileName%.*}"
+              
+              echo "File name without extension: $fileNameWithoutExtension"
+              if [[  ! $fileNameWithoutExtension == *".trigger-meta"*  && ! $fileNameWithoutExtension == *".test"*   && ! $fileNameWithoutExtension == *".cls-meta"* && ! $fileNameWithoutExtension == *".js-meta"* && ! $fileNameWithoutExtension == *".field-meta"* ]]; then
+              # Extract the component name from the file (you might need to adjust this)
+                component=$fileNameWithoutExtension
+                # Extract the component name from the file (you might need to adjust this)
+                echo $fileNameWithoutExtension
+                # Check if the component exists in the Jira project
+                echo ${{secrets.JIRA_USERNAME}}
+                echo ${{secrets.JIRA_API_KEY}}
+                if curl -u ${{ secrets.JIRA_USERNAME }}:${{ secrets.JIRA_API_KEY }} -X GET -H "Content-Type: application/json" "https://cloudpacific.atlassian.net/rest/api/latest/project/NB/component/$component" | grep -q '"name":"'"$component"'"'; then
+                  echo "Component $component already exists in the Jira project."
+                else
+                  # Create the component in the Jira project using
+                  # You can add the code to create the component here
+                  echo "Creating component $component in the Jira project."
+                  # Create the component in the Jira project
+                  createComponentResponse=$(curl -u ${{ secrets.JIRA_USERNAME }}:${{ secrets.JIRA_API_KEY }} -X POST -sH  'Accept-encoding: application/json' -H "Content-Type: application/json" -d '{
+                    "name": "'"$component"'",
+                    "description": "Component created automatically",
+                    "project" : "NB"
+                  }' "https://cloudpacific.atlassian.net/rest/api/latest/component")
+                  
+                  # Check the response to see if the component was created successfully
+                  if echo "$createComponentResponse" | grep -q '"name":"'"$component"'"'; then
+                    echo "Component $component created successfully in the Jira project."
+                  else
+                    echo "Failed to create component $component in the Jira project."
+                    echo $createComponentResponse
+                    # You can add error handling here if needed
+                  fi
+                fi
+                # Link the component to the Jira issue
+                  linkComponentToIssueResponse=$(curl -u ${{ secrets.JIRA_USERNAME }}:${{ secrets.JIRA_API_KEY }} -X PUT -H "Content-Type: application/json" -d '{
+                    "update": {
+                      "components": [
+                        {
+                          "add": {"name": "'"$component"'"}
+                        }
+                      ]
+                    }
+                  }' "https://cloudpacific.atlassian.net/rest/api/latest/issue/${issueKey}")
+                  
+                  # Check the response to see if the component was linked to the issue successfully
+                  if echo "$linkComponentToIssueResponse" | grep -q '"name":"'"$component"'"'; then
+                    echo "Component $component linked to the Jira issue $issueKey successfully."
+                  else
+                    echo "Failed to link component $component to the Jira issue $issueKey."
+                    echo $linkComponentToIssueResponse
+                    # You can add error handling here if needed
+                  fi
+              fi
+            done
+          
